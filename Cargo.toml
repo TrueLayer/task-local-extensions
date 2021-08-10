@@ -1,0 +1,12 @@
+[package]
+name = "truelayer-extensions"
+version = "0.1.0"
+authors = ["Helge Hoff <helge.hoff@truelayer.com>"]
+edition = "2018"
+description = "Task-local container for arbitrary data."
+repository = "https://github.com/TrueLayer/rust-truelayer-extensions"
+license = "MIT OR Apache-2.0"
+keywords = ["extensions", "typemap"]
+
+[dependencies]
+tokio = { version = "1", features = ["rt"] }
