@@ -5,7 +5,7 @@ Provides a type-safe task-local container for arbitrary data keyed by types and 
 [![Crates.io](https://img.shields.io/crates/v/truelayer-extensions.svg)](https://crates.io/crates/truelayer-extensions)
 [![Docs.rs](https://docs.rs/truelayer-extensions/badge.svg)](https://docs.rs/truelayer-extensions)
 [![CI](https://github.com/TrueLayer/rust-truelayer-extensions/workflows/CI/badge.svg)](https://github.com/TrueLayer/rust-truelayer-extensions/actions)
-[![Coverage Status](https://coveralls.io/repos/github/TrueLayer/rust-truelayer-extensions/badge.svg?branch=main&t=UWgSpm)](https://coveralls.io/github/TrueLayer/rust-truelayer-extensions?branch=main)
+[![Coverage Status](https://coveralls.io/repos/github/TrueLayer/rust-truelayer-extensions/badge.svg?branch=main&t=DdH5KB)](https://coveralls.io/github/TrueLayer/rust-truelayer-extensions?branch=main)
 
 ## How to install
 
