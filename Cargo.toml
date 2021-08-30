@@ -1,10 +1,10 @@
 [package]
-name = "truelayer-extensions"
+name = "task-local-extensions"
 version = "0.1.1-alpha.0"
 authors = ["Helge Hoff <helge.hoff@truelayer.com>"]
 edition = "2018"
 description = "Task-local container for arbitrary data."
-repository = "https://github.com/TrueLayer/truelayer-extensions"
+repository = "https://github.com/TrueLayer/task-local-extensions"
 license = "MIT OR Apache-2.0"
 keywords = ["extensions", "typemap"]
 
