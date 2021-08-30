@@ -43,7 +43,7 @@ This is no different than other Rust projects.
 
 ```shell
 git clone https://github.com/TrueLayer/task-local-extensions
-cd rust-task-local-extensions
+cd task-local-extensions
 cargo test
 ```
 
