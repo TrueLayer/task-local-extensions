@@ -19,8 +19,9 @@ task-local-extensions = "0.1.0"
 
 ## Usage
 
-[`Extensions`] is a container that can store up to one value of each type, so you can insert and
-retrive values by their type:
+[`Extensions`](https://docs.rs/task-local-extensions/latest/task_local_extensions/struct.Extensions.html)
+is a container that can store up to one value of each type, so you can insert and retrive values by
+their type:
 
 ```rust
 use task_local_extensions::Extensions;
@@ -31,8 +32,8 @@ extensions.insert(a);
 assert_eq!(ext.get::<i64>(), Some(&3));
 ```
 
-The crate also provides [`with_extensions`] so you set an `Extensions` instance while running a
-given task:
+The crate also provides [`with_extensions`](https://docs.rs/task-local-extensions/latest/task_local_extensions/fn.with_extensions.html)
+so you set an `Extensions` instance while running a given task:
 
 ```rust
 use task_local_extensions::{get_local_item, set_local_item, with_extensions, Extensions};
@@ -65,5 +66,3 @@ Unless you explicitly state otherwise, any contribution intentionally submitted
 for inclusion in the work by you, as defined in the Apache-2.0 license, shall be
 dual licensed as above, without any additional terms or conditions.
 </sub>
-
-[`Extensions`](https://docs.rs/task-local-extensions/latest/truelayer_extensions/struct.Extensions.html)
