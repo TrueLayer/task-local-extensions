@@ -1,3 +1,7 @@
+// clippy bug wrongly flags the task_local macro as being bad.
+// a fix is already merged but hasn't made it upstream yet
+#![allow(clippy::declare_interior_mutable_const)]
+
 use crate::Extensions;
 use std::cell::RefCell;
 use std::future::Future;
