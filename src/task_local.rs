@@ -1,3 +1,7 @@
+// clippy bug wrongly flags the task_local macro as being bad.
+// a fix is already merged but hasn't made it upstream yet
+#![allow(clippy::declare_interior_mutable_const)]
+
 use crate::Extensions;
 use std::cell::RefCell;
 use std::future::Future;
@@ -16,11 +20,11 @@ pub async fn with_extensions<T>(
     EXTENSIONS
         .scope(RefCell::new(extensions), async move {
             let response = fut.await;
-            let extensions = RefCell::new(Extensions::new());
+            let mut extensions = Extensions::new();
 
-            EXTENSIONS.with(|ext| ext.swap(&extensions));
+            EXTENSIONS.with(|ext| std::mem::swap(&mut *ext.borrow_mut(), &mut extensions));
 
-            (extensions.into_inner(), response)
+            (extensions, response)
         })
         .await
 }

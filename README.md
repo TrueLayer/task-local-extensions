@@ -45,9 +45,7 @@ async fn my_task() {
 }
 
 let a: i64 = 3;
-let mut ext = Extensions::new();
-ext.insert(a);
-let (out_ext, _) = with_extensions(ext, my_task()).await;
+let (out_ext, _) = with_extensions(Extensions::new().with(a), my_task()).await;
 let msg = out_ext.get::<String>().unwrap();
 assert_eq!(msg.as_str(), "The value of a is: 3");
 ```

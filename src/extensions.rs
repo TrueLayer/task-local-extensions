@@ -15,13 +15,35 @@ use std::hash::{BuildHasherDefault, Hasher};
 /// on the outgoing path (e.g. error class).
 #[derive(Default)]
 pub struct Extensions {
-    map: Option<HashMap<TypeId, Box<dyn Any + Send + Sync>, BuildHasherDefault<IdHasher>>>,
+    map: HashMap<TypeId, Box<dyn Any + Send + Sync>, BuildHasherDefault<IdHasher>>,
 }
 
 impl Extensions {
     /// Create an empty `Extensions`.
     pub fn new() -> Self {
-        Self { map: None }
+        Self {
+            map: HashMap::default(),
+        }
+    }
+
+    /// Insert a value ino this [`Extensions`], returning self instead of any pre-inserted values.
+    ///
+    /// This is useful for any builder style patterns
+    ///
+    /// ```
+    /// # use task_local_extensions::Extensions;
+    /// let ext = Extensions::new().with(true).with(5_i32);
+    /// assert_eq!(ext.get(), Some(&true));
+    /// assert_eq!(ext.get(), Some(&5_i32));
+    /// ```
+    pub fn with<T: Send + Sync + 'static>(mut self, val: T) -> Self {
+        self.insert(val);
+        self
+    }
+
+    /// Removes the values from `other` and inserts them into `self`.
+    pub fn append(&mut self, other: &mut Self) {
+        self.map.extend(other.map.drain())
     }
 
     /// Insert a value into this `Extensions`.
@@ -29,32 +51,26 @@ impl Extensions {
     /// If a value of this type already exists, it will be returned.
     pub fn insert<T: Send + Sync + 'static>(&mut self, val: T) -> Option<T> {
         self.map
-            .get_or_insert_with(Default::default)
             .insert(TypeId::of::<T>(), Box::new(val))
             .and_then(|boxed| (boxed as Box<dyn Any>).downcast().ok().map(|boxed| *boxed))
     }
 
     /// Check if container contains value for type
     pub fn contains<T: 'static>(&self) -> bool {
-        self.map
-            .as_ref()
-            .and_then(|m| m.get(&TypeId::of::<T>()))
-            .is_some()
+        self.map.get(&TypeId::of::<T>()).is_some()
     }
 
     /// Get a reference to a value previously inserted on this `Extensions`.
     pub fn get<T: 'static>(&self) -> Option<&T> {
         self.map
-            .as_ref()
-            .and_then(|m| m.get(&TypeId::of::<T>()))
+            .get(&TypeId::of::<T>())
             .and_then(|boxed| (&**boxed as &(dyn Any)).downcast_ref())
     }
 
     /// Get a mutable reference to a value previously inserted on this `Extensions`.
     pub fn get_mut<T: 'static>(&mut self) -> Option<&mut T> {
         self.map
-            .as_mut()
-            .and_then(|m| m.get_mut(&TypeId::of::<T>()))
+            .get_mut(&TypeId::of::<T>())
             .and_then(|boxed| (&mut **boxed as &mut (dyn Any)).downcast_mut())
     }
 
@@ -63,15 +79,14 @@ impl Extensions {
     /// If a value of this type exists, it will be returned.
     pub fn remove<T: 'static>(&mut self) -> Option<T> {
         self.map
-            .as_mut()
-            .and_then(|m| m.remove(&TypeId::of::<T>()))
+            .remove(&TypeId::of::<T>())
             .and_then(|boxed| (boxed as Box<dyn Any>).downcast().ok().map(|boxed| *boxed))
     }
 
     /// Clear the `Extensions` of all inserted values.
     #[inline]
     pub fn clear(&mut self) {
-        self.map = None;
+        self.map.clear();
     }
 }
 
