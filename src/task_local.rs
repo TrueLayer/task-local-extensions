@@ -16,11 +16,11 @@ pub async fn with_extensions<T>(
     EXTENSIONS
         .scope(RefCell::new(extensions), async move {
             let response = fut.await;
-            let extensions = RefCell::new(Extensions::new());
+            let mut extensions = Extensions::new();
 
-            EXTENSIONS.with(|ext| ext.swap(&extensions));
+            EXTENSIONS.with(|ext| std::mem::swap(&mut *ext.borrow_mut(), &mut extensions));
 
-            (extensions.into_inner(), response)
+            (extensions, response)
         })
         .await
 }
