@@ -4,7 +4,6 @@
 use std::any::{Any, TypeId};
 use std::collections::HashMap;
 use std::fmt;
-use std::hash::{BuildHasherDefault, Hasher};
 
 /// `Extensions` is a type map: values are stored and retrieved using their
 /// [`TypeId`](https://doc.rust-lang.org/std/any/struct.TypeId.html).
