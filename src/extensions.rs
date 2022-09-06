@@ -4,7 +4,6 @@
 use std::any::{Any, TypeId};
 use std::collections::HashMap;
 use std::fmt;
-use std::hash::{BuildHasherDefault, Hasher};
 
 /// `Extensions` is a type map: values are stored and retrieved using their
 /// [`TypeId`](https://doc.rust-lang.org/std/any/struct.TypeId.html).
@@ -15,7 +14,7 @@ use std::hash::{BuildHasherDefault, Hasher};
 /// on the outgoing path (e.g. error class).
 #[derive(Default)]
 pub struct Extensions {
-    map: HashMap<TypeId, Box<dyn Any + Send + Sync>, BuildHasherDefault<IdHasher>>,
+    map: HashMap<TypeId, Box<dyn Any + Send + Sync>>,
 }
 
 impl Extensions {
@@ -93,26 +92,6 @@ impl Extensions {
 impl fmt::Debug for Extensions {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.debug_struct("Extensions").finish()
-    }
-}
-
-// With TypeIds as keys, there's no need to hash them. So we simply use an identity hasher.
-#[derive(Default)]
-struct IdHasher(u64);
-
-impl Hasher for IdHasher {
-    fn write(&mut self, _: &[u8]) {
-        unreachable!("TypeId calls write_u64");
-    }
-
-    #[inline]
-    fn write_u64(&mut self, id: u64) {
-        self.0 = id;
-    }
-
-    #[inline]
-    fn finish(&self) -> u64 {
-        self.0
     }
 }
 
