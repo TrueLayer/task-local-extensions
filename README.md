@@ -28,7 +28,7 @@ use task_local_extensions::Extensions;
 
 let a: i64 = 3;
 let mut ext = Extensions::new();
-extensions.insert(a);
+ext.insert(a);
 assert_eq!(ext.get::<i64>(), Some(&3));
 ```
 
