@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.4] - 2023-03-09
+### Changed
+- Switched out task-local impl from tokio to using a custom one. Allows for wasm32 compat now
+
 ## [0.1.3] - 2022-09-06
 ### Changed
 - The internal representation of `Extensions` no longer uses an `IdHasher` and instead uses the default hasher in order to be safe in case the representation of `TypeId` changes in future
